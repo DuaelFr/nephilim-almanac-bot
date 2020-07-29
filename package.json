@@ -1,0 +1,29 @@
+{
+  "name": "nephilim-almanac-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DuaelFr/nephilim-almanac-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "nephilim",
+    "rpg"
+  ],
+  "author": "DuaelFr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DuaelFr/nephilim-almanac-bot/issues"
+  },
+  "homepage": "https://github.com/DuaelFr/nephilim-almanac-bot#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "winston": "^3.3.3"
+  }
+}
