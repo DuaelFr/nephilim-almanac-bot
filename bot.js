@@ -33,6 +33,11 @@ const bot = new Discord.Client();
 // Log when ready.
 bot.on('ready', () => {
   logger.info(`Logged in as ${bot.user.tag}!`);
+
+  bot.user.setActivity({
+    name: '@JJ/MM/YYYY',
+    type: "LISTENING"
+  });
 });
 
 // Handle messages.
