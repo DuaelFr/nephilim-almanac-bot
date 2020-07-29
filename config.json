@@ -1,0 +1,90 @@
+{
+  "daysNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+  "daysElements": ["Soleil", "Lune", "Feu", "Eau", "Air", "Terre", "Orichalque"],
+  "monthsAlmanac": [
+    {
+      "sign": "Capricorne",
+      "star": "Lune",
+      "day": "Lundi",
+      "ka": "Lune",
+      "limit": "19/01"
+    },
+    {
+      "sign": "Verseau",
+      "star": "Saturne",
+      "day": "Samedi",
+      "ka": "Orichalque",
+      "limit": "18/02"
+    },
+    {
+      "sign": "Poisson",
+      "star": "Jupiter",
+      "day": "Jeudi",
+      "ka": "Air",
+      "limit": "20/03"
+    },
+    {
+      "sign": "Bélier",
+      "star": "Mars",
+      "day": "Mardi",
+      "ka": "Feu",
+      "limit": "20/04"
+    },
+    {
+      "sign": "Taureau",
+      "star": "Vénus",
+      "day": "Vendredi",
+      "ka": "Terre",
+      "limit": "20/05"
+    },
+    {
+      "sign": "Gémeaux",
+      "star": "Mercure",
+      "day": "Mercredi",
+      "ka": "Eau",
+      "limit": "21/06"
+    },
+    {
+      "sign": "Cancer",
+      "star": "Lune",
+      "day": "Lundi",
+      "ka": "Lune",
+      "limit": "22/07"
+    },
+    {
+      "sign": "Lion",
+      "star": "Soleil",
+      "day": "Tous les jours",
+      "ka": "Soleil",
+      "limit": "22/08"
+    },
+    {
+      "sign": "Vierge",
+      "star": "Mercure",
+      "day": "Mercredi",
+      "ka": "Eau",
+      "limit": "22/09"
+    },
+    {
+      "sign": "Balance",
+      "star": "Vénus",
+      "day": "Vendredi",
+      "ka": "Terre",
+      "limit": "22/10"
+    },
+    {
+      "sign": "Scorpion",
+      "star": "Mars",
+      "day": "Mardi",
+      "ka": "Feu",
+      "limit": "21/11"
+    },
+    {
+      "sign": "Sagittaire",
+      "star": "Jupiter",
+      "day": "Jeudi",
+      "ka": "Air",
+      "limit": "20/12"
+    }
+  ]
+}

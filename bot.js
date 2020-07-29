@@ -1,28 +1,80 @@
 const Discord = require('discord.js');
 const logger = require('winston');
+const moment = require('moment');
+const config = require('./config.json');
 
-const daysNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+// Configure moment locale.
+moment.locale("fr");
 
-// Configure logger settings
+// Configure logger settings.
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
-    colorize: true
+  colorize: true
 });
 logger.level = 'debug';
 
-// Initialize Discord Bot
+// Helpers.
+const buildDate = (day, month, year) => {
+  const date = moment();
+  date.year(parseInt(year));
+  date.month(parseInt(month, 10) - 1);
+  date.date(parseInt(day, 10));
+
+  if (!date.isValid() || date.date() !== parseInt(day, 10)) {
+    throw "Date invalide";
+  }
+
+  return date;
+}
+
+// Initialize Discord Bot.
 const bot = new Discord.Client();
 
+// Log when ready.
 bot.on('ready', () => {
-    logger.info(`Logged in as ${bot.user.tag}!`);
+  logger.info(`Logged in as ${bot.user.tag}!`);
 });
 
+// Handle messages.
 bot.on('message', msg => {
   if (msg.content.match(/^@[0-9]{2}\/[0-9]{2}\/-?[0-9]+$/)) {
-    const [day, month, year] = msg.content.substr(1).split('/');
-    const date = new Date(year, month, day);
+    try {
+      const [day, month, year] = msg.content.substr(1).split("/");
+      const date = buildDate(day, month, year);
 
-    msg.channel.send(`Le ${day}/${month}/${year} était un ${daysNames[date.getDay()]}`);
+      let found = false, i = 0, n = config.monthsAlmanac.length;
+      while (!found && i < n) {
+        const [dayLimit, monthLimit] = config.monthsAlmanac[i].limit.split("/");
+        const limit = buildDate(dayLimit, monthLimit, year);
+        if (date.isSameOrBefore(limit)) {
+          found = true;
+        }
+        else {
+          i++;
+        }
+      }
+      if (!found) {
+        i = 0;
+      }
+
+      let message = [];
+      let dateString = date.format("Do MMMM ");
+      if (year >= 0) {
+        dateString += parseInt(year, 10);
+      }
+      else {
+        dateString += Math.abs(parseInt(year, 10)) + " av J.-C.";
+      }
+      message.push(`Le **${dateString}** était un **${config.daysNames[date.day()]}** (${config.daysElements[date.day()]})`);
+      message.push(`Éphéméride : ${config.monthsAlmanac[i].sign} / ${config.monthsAlmanac[i].star} / ${config.monthsAlmanac[i].ka}`);
+      if (config.monthsAlmanac[i].day === config.daysNames[date.day()]) {
+        message.push("**Grande conjonction !**");
+      }
+      msg.channel.send(message.join("\n"));
+    }
+    catch (e) {
+      msg.channel.send(e);
+    }
   }
 });
 
