@@ -74,7 +74,7 @@ bot.on('message', msg => {
       message.push(`Le **${dateString}** ${verb} un **${config.daysNames[date.day()]}** (${config.daysElements[date.day()]})`);
       message.push(`Éphéméride : ${config.monthsAlmanac[i].sign} / ${config.monthsAlmanac[i].star} / ${config.monthsAlmanac[i].ka}`);
       if (config.monthsAlmanac[i].day === config.daysNames[date.day()]) {
-        message.push("**Grande conjonction !**");
+        message.push("**Grande conjonction potentielle !**");
       }
       msg.channel.send(message.join("\n"));
     }
