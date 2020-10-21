@@ -70,7 +70,6 @@ bot.on('message', msg => {
         i = 0;
       }
 
-      let message = [];
       let dateString = date.format("Do MMMM ");
       if (year >= 0) {
         dateString += parseInt(year, 10);
@@ -79,12 +78,19 @@ bot.on('message', msg => {
         dateString += Math.abs(parseInt(year, 10)) + " av J.-C.";
       }
       const verb = date.isAfter(moment()) ? "sera" : "était";
-      message.push(`Le **${dateString}** ${verb} un **${config.daysNames[date.day()]}** (${config.daysElements[date.day()]})`);
+
+      let message = [];
+      message.push(`Ce jour ${verb} un **${config.daysNames[date.day()]}** (${config.daysElements[date.day()]})`);
       message.push(`Éphéméride : ${config.monthsAlmanac[i].sign} / ${config.monthsAlmanac[i].star} / ${config.monthsAlmanac[i].ka}`);
       if (config.monthsAlmanac[i].day === config.daysNames[date.day()]) {
         message.push("**Grande conjonction potentielle !**");
       }
-      msg.channel.send(message.join("\n"));
+
+      const embed = new Discord.MessageEmbed()
+        .setTitle(dateString)
+        .setColor(`#${config.daysElementsColors[date.day()]}`)
+        .setDescription(message.join("\n"));
+      msg.channel.send(embed);
     }
     catch (e) {
       msg.channel.send(e);

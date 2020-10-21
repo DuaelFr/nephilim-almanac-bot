@@ -1,6 +1,7 @@
 {
   "daysNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
   "daysElements": ["Soleil", "Lune", "Feu", "Eau", "Air", "Terre", "Orichalque"],
+  "daysElementsColors": ["f9d71c", "f7f3e6", "f86f29", "b8dff0", "f8f3c5", "ae6241", "e3e5e4"],
   "monthsAlmanac": [
     {
       "sign": "Capricorne",
