@@ -27,6 +27,14 @@ const buildDate = (day, month, year) => {
   return date;
 }
 
+const sendError = (msg, errorMessage) => {
+  const embed = new Discord.MessageEmbed()
+    .setTitle('Erreur')
+    .setColor(0xff0000)
+    .setDescription(errorMessage);
+  msg.channel.send(embed);
+}
+
 // Initialize Discord Bot.
 const bot = new Discord.Client();
 
@@ -93,7 +101,7 @@ bot.on('message', msg => {
       msg.channel.send(embed);
     }
     catch (e) {
-      msg.channel.send(e);
+      return sendError(msg, e);
     }
   }
 });
