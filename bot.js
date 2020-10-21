@@ -35,14 +35,22 @@ bot.on('ready', () => {
   logger.info(`Logged in as ${bot.user.tag}!`);
 
   bot.user.setActivity({
-    name: '@JJ/MM/YYYY',
+    name: '@help',
     type: "LISTENING"
   });
 });
 
 // Handle messages.
 bot.on('message', msg => {
-  if (msg.content.match(/^@[0-9]{2}\/[0-9]{2}\/-?[0-9]+$/)) {
+  if (msg.content === '@help') {
+    let response = [];
+    response.push('**Obtenir l\'almanach du jour** :');
+    response.push('Permet de connaître le jour de la semaine, son élément et les conjonctions potentielles.');
+    response.push('Syntaxe : @JJ/MM/YYYY');
+    response.push('Exemples : @01/01/2017 ou @30/06/-152');
+    msg.channel.send(response.join("\n"));
+  }
+  else if (msg.content.match(/^@[0-9]{2}\/[0-9]{2}\/-?[0-9]+$/)) {
     try {
       const [day, month, year] = msg.content.substr(1).split("/");
       const date = buildDate(day, month, year);
