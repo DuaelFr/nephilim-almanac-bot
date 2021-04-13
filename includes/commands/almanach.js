@@ -20,8 +20,8 @@ const buildDate = (day, month, year) => {
   return date;
 }
 
-function handle(msg) {
-  if (msg.content.match(/^@[0-9]{2}\/[0-9]{2}\/-?[0-9]+$/)) {
+function handle(command, msg) {
+  if (command.match(/^[0-9]{2}\/[0-9]{2}\/-?[0-9]+$/)) {
     try {
       const [day, month, year] = msg.content.substr(1).split("/");
       const date = buildDate(day, month, year);

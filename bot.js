@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const logger = require('winston');
+const config = require('./config.json');
 
 // Configure logger settings.
 logger.remove(logger.transports.Console);
@@ -28,8 +29,11 @@ const msgHandlers = [
 
 // Handle messages.
 bot.on('message', msg => {
-  for (let i in msgHandlers) {
-    msgHandlers[i](msg);
+  if (msg.content.substr(0, 1) === config.prefix) {
+    const command = msg.content.split(' ')[0].substr(config.prefix.length);
+    for (let i in msgHandlers) {
+      msgHandlers[i](command, msg);
+    }
   }
 });
 
