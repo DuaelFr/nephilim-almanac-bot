@@ -26,6 +26,8 @@
   "dependencies": {
     "discord.js": "^12.2.0",
     "moment": "^2.27.0",
+    "promise-redis": "0.0.5",
+    "serialize-javascript": "^5.0.1",
     "winston": "^3.3.3"
   }
 }
