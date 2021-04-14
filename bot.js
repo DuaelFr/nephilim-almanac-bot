@@ -22,10 +22,12 @@ bot.on('ready', () => {
   });
 });
 
-const msgHandlers = [
-  require('./includes/commands/help'),
-  require('./includes/commands/almanach'),
-];
+// Load all message handlers.
+const normalizedPath = require("path").join(__dirname, "includes/commands");
+let msgHandlers = [];
+require("fs").readdirSync(normalizedPath).forEach(function(file) {
+  msgHandlers.push(require("./includes/commands/" + file));
+});
 
 // Handle messages.
 bot.on('message', msg => {
