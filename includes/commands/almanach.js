@@ -21,51 +21,53 @@ const buildDate = (day, month, year) => {
 }
 
 function handle(command, msg) {
-  if (command.match(/^[0-9]{2}\/[0-9]{2}\/-?[0-9]+$/)) {
-    try {
-      const [day, month, year] = msg.content.substr(1).split("/");
-      const date = buildDate(day, month, year);
+  if (!command.match(/^[0-9]{2}\/[0-9]{2}\/-?[0-9]+$/)) {
+    return;
+  }
 
-      let found = false, i = 0, n = config.monthsAlmanac.length;
-      while (!found && i < n) {
-        const [dayLimit, monthLimit] = config.monthsAlmanac[i].limit.split("/");
-        const limit = buildDate(dayLimit, monthLimit, year);
-        if (date.isSameOrBefore(limit)) {
-          found = true;
-        }
-        else {
-          i++;
-        }
-      }
-      if (!found) {
-        i = 0;
-      }
+  try {
+    const [day, month, year] = msg.content.substr(1).split("/");
+    const date = buildDate(day, month, year);
 
-      let dateString = date.format("Do MMMM ");
-      if (year >= 0) {
-        dateString += parseInt(year, 10);
+    let found = false, i = 0, n = config.monthsAlmanac.length;
+    while (!found && i < n) {
+      const [dayLimit, monthLimit] = config.monthsAlmanac[i].limit.split("/");
+      const limit = buildDate(dayLimit, monthLimit, year);
+      if (date.isSameOrBefore(limit)) {
+        found = true;
       }
       else {
-        dateString += Math.abs(parseInt(year, 10)) + " av J.-C.";
+        i++;
       }
-      const verb = date.isAfter(moment()) ? "sera" : "était";
-
-      let message = [];
-      message.push(`Ce jour ${verb} un **${config.daysNames[date.day()]}** (${config.daysElements[date.day()]})`);
-      message.push(`Éphéméride : ${config.monthsAlmanac[i].sign} / ${config.monthsAlmanac[i].star} / ${config.monthsAlmanac[i].ka}`);
-      if (config.monthsAlmanac[i].day === config.daysNames[date.day()]) {
-        message.push("**Grande conjonction potentielle !**");
-      }
-
-      const embed = new Discord.MessageEmbed()
-        .setTitle(dateString)
-        .setColor(`#${config.daysElementsColors[date.day()]}`)
-        .setDescription(message.join("\n"));
-      msg.channel.send(embed);
     }
-    catch (e) {
-      return sendError(msg, e);
+    if (!found) {
+      i = 0;
     }
+
+    let dateString = date.format("Do MMMM ");
+    if (year >= 0) {
+      dateString += parseInt(year, 10);
+    }
+    else {
+      dateString += Math.abs(parseInt(year, 10)) + " av J.-C.";
+    }
+    const verb = date.isAfter(moment()) ? "sera" : "était";
+
+    let message = [];
+    message.push(`Ce jour ${verb} un **${config.daysNames[date.day()]}** (${config.daysElements[date.day()]})`);
+    message.push(`Éphéméride : ${config.monthsAlmanac[i].sign} / ${config.monthsAlmanac[i].star} / ${config.monthsAlmanac[i].ka}`);
+    if (config.monthsAlmanac[i].day === config.daysNames[date.day()]) {
+      message.push("**Grande conjonction potentielle !**");
+    }
+
+    const embed = new Discord.MessageEmbed()
+      .setTitle(dateString)
+      .setColor(`#${config.daysElementsColors[date.day()]}`)
+      .setDescription(message.join("\n"));
+    msg.channel.send(embed);
+  }
+  catch (e) {
+    return sendError(msg, e);
   }
 }
 
