@@ -15,4 +15,7 @@ function handle(command, msg) {
     });
 }
 
-module.exports = handle;
+module.exports = {
+  init() {},
+  handle,
+};
