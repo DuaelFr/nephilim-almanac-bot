@@ -3,9 +3,7 @@ const redis = require('promise-redis')();
 const serialize = require('serialize-javascript');
 
 // Configure redis database.
-const redisClient = redis.createClient({
-  url: process.env.REDIS_TLS_URL
-});
+const redisClient = redis.createClient(process.env.REDIS_TLS_URL);
 redisClient.on("error", function(error) {
   throw "Impossible de joindre la base de données.";
 });
