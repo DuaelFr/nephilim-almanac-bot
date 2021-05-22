@@ -90,8 +90,6 @@
     }
   ],
   "cardsSets": {
-    "lv0_magie": "Sortilèges de Nephilim Quintessence",
-    "lv0_alchimie": "Formules alchimiques de Nephilim Quintessence",
-    "lv0_kabbale": "Invocations de Kabbale de Nephilim Quintessence"
+    "lv0": "Livre 0 - Néphilim Quintessence"
   }
 }

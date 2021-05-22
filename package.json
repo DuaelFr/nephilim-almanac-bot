@@ -24,10 +24,13 @@
   },
   "homepage": "https://github.com/DuaelFr/nephilim-almanac-bot#readme",
   "dependencies": {
+    "csvtojson": "^2.0.10",
     "discord.js": "^12.2.0",
+    "fuse.js": "^6.4.6",
     "moment": "^2.27.0",
     "promise-redis": "0.0.5",
     "serialize-javascript": "^5.0.1",
+    "transliteration": "^2.2.0",
     "winston": "^3.3.3"
   }
 }
