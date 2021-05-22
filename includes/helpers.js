@@ -1,12 +1,17 @@
 const Discord = require('discord.js');
-const redis = require('promise-redis')();
+const redis = require('redis');
 const serialize = require('serialize-javascript');
+const { promisify } = require("util");
 
 // Configure redis database.
 const redisClient = redis.createClient(process.env.REDIS_TLS_URL);
 redisClient.on("error", function(error) {
   throw "Impossible de joindre la base de données.";
 });
+
+// Base redis methods.
+const redisGetAsync = promisify(redisClient.get).bind(redisClient);
+const redisSetAsync = promisify(redisClient.set).bind(redisClient);
 
 /**
  * Send an error message to the client.
@@ -30,7 +35,7 @@ const sendError = (msg, errorMessage) => {
  * @returns {PromiseLike<any> | Promise<any>}
  */
 const configGet = (guild, key) => {
-  return redisClient.get(`neph:${guild}:${key}`)
+  return redisGetAsync(`neph:${guild}:${key}`)
     .then((serialized) => {
       return eval('(' + serialized + ')');
     });
@@ -45,7 +50,7 @@ const configGet = (guild, key) => {
  * @returns {*}
  */
 const configSet = (guild, key, value) => {
-  return redisClient.set(`neph:${guild}:${key}`, serialize(value));
+  return redisSetAsync(`neph:${guild}:${key}`, serialize(value));
 }
 
 module.exports = { sendError, configGet, configSet };
