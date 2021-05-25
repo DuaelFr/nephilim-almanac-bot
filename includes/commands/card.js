@@ -115,7 +115,7 @@ function reduceResults(results) {
  * @returns {PromiseLike<*[]>}
  */
 function filterResults(msg, results) {
-  return configGet(msg.guild.id, 'enabledSets')
+  return configGet(msg.guild.id, 'enabledSets', {})
     .then((data) => {
       let enabledSets = {};
       Object.keys(config.cardsSets).forEach((key) => {

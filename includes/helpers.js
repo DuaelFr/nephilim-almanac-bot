@@ -36,12 +36,23 @@ const sendError = (msg, errorMessage) => {
  *
  * @param guild
  * @param key
+ * @param defaultValue
  * @returns {PromiseLike<any> | Promise<any>}
  */
-const configGet = (guild, key) => {
+const configGet = (guild, key, defaultValue = undefined) => {
   return redisGetAsync(`neph:${guild}:${key}`)
     .then((serialized) => {
       return eval('(' + serialized + ')');
+    })
+    .then((data) => {
+      if (!data) {
+        return defaultValue;
+      }
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return defaultValue;
     });
 }
 
@@ -54,7 +65,10 @@ const configGet = (guild, key) => {
  * @returns {*}
  */
 const configSet = (guild, key, value) => {
-  return redisSetAsync(`neph:${guild}:${key}`, serialize(value));
+  return redisSetAsync(`neph:${guild}:${key}`, serialize(value))
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 module.exports = { sendError, configGet, configSet };

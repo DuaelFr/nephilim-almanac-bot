@@ -38,7 +38,7 @@ function handle(command, msg) {
   else if (params[1] === 'sets') {
     // No third param = read existing config.
     if (params.length === 2) {
-      configGet(guild.id, 'enabledSets')
+      configGet(guild.id, 'enabledSets', {})
         .then((data) => {
           let response = [];
           for (const [setName, setLabel] of Object.entries(config.cardsSets)) {
@@ -65,7 +65,7 @@ function handle(command, msg) {
       }
 
       // Toggle the state of the card set for this server (guild).
-      configGet(guild.id, 'enabledSets')
+      configGet(guild.id, 'enabledSets', {})
         .then((data) => {
           data[setName] = !data[setName];
           configSet(guild.id, 'enabledSets', data)
