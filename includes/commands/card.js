@@ -5,6 +5,8 @@ const transliteration = require('transliteration');
 const config = require('../../config.json');
 const { readFile } = require('fs').promises;
 const { configGet } = require('../helpers');
+const player = require('../libs/player.js');
+const spell = require('../libs/spell.js');
 
 let cards;
 let index;
@@ -14,6 +16,16 @@ function cleanString(string) {
   string = string.toLowerCase();
   string = string.replace(/[^a-z]/g, ' ').replace(/\s+/g, ' ');
   return string;
+}
+
+function cast(message, card)
+{
+    var result = player.info(message.author.id, message.channel.guild.id);
+    if (typeof result === 'string' || result instanceof String)
+    {
+        return result;
+    }
+    return spell.cast(result, card);
 }
 
 function init() {
@@ -160,9 +172,11 @@ function formatResults(results, allResults) {
   }
   else if (results.length === 1) {
     const card = results[0].item;
+    var description = card.type;
+    // description += "\n" + cast(message, card);
     return new Discord.MessageEmbed()
       .setTitle(card.name)
-      .setDescription(card.type)
+      .setDescription(description)
       .attachFiles([`assets/cards/${card.file}`])
       .setImage(`attachment://${card.file}`)
       .setFooter(`Crédit image : ${card.credit}`);
