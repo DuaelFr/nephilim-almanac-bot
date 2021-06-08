@@ -106,3 +106,5 @@ dist
 # Sensitive files
 .DONOTCOMMIT
 *.sh
+/.idea/
+*.iml
