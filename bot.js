@@ -10,7 +10,9 @@ logger.add(new logger.transports.Console, {
 logger.level = 'debug';
 
 // Initialize Discord Bot.
-const bot = new Discord.Client();
+const bot = new Discord.Client({
+  intents: ["GUILD_MESSAGES", "DIRECT_MESSAGES"],
+});
 
 // Log when ready.
 bot.on('ready', () => {

@@ -25,7 +25,7 @@
   "homepage": "https://github.com/DuaelFr/nephilim-almanac-bot#readme",
   "dependencies": {
     "csvtojson": "^2.0.10",
-    "discord.js": "^12.2.0",
+    "discord.js": "^13.0.0",
     "fuse.js": "^6.4.6",
     "moment": "^2.27.0",
     "redis": "^3.1.2",
