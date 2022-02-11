@@ -1,0 +1,14 @@
+name: ouroboros
+services:
+  redis:
+    type: redis
+    app_mount: false
+  appserver:
+    type: node:16
+    build:
+      - npm install
+tooling:
+  node:
+    service: appserver
+  npm:
+    service: appserver
