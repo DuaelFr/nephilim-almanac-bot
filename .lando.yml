@@ -5,6 +5,10 @@ services:
     app_mount: false
   appserver:
     type: node:16
+    overrides:
+      environment:
+        TOKEN: '**OVERRIDE THIS LOCALLY**'
+        REDIS_TLS_URL: 'redis://redis'
     build:
       - npm install
 tooling:
