@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const redis = require('redis');
 const serialize = require('serialize-javascript');
 const { promisify } = require("util");
@@ -24,11 +24,11 @@ const redisSetAsync = promisify(redisClient.set).bind(redisClient);
  * @param errorMessage
  */
 const sendError = (msg, errorMessage) => {
-  const embed = new Discord.MessageEmbed()
+  const embed = new MessageEmbed()
     .setTitle('Erreur')
     .setColor(0xff0000)
     .setDescription(errorMessage);
-  msg.channel.send(embed);
+  msg.channel.send({embeds: [embed]});
 }
 
 /**

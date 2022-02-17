@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
 const config = require('../../config.json');
 const { sendError } = require('../helpers');
@@ -60,11 +60,11 @@ function handle(command, msg) {
       message.push("**Grande conjonction potentielle !**");
     }
 
-    const embed = new Discord.MessageEmbed()
+    const embed = new MessageEmbed()
       .setTitle(dateString)
       .setColor(`#${config.daysElementsColors[date.day()]}`)
       .setDescription(message.join("\n"));
-    msg.channel.send(embed);
+    return msg.channel.send({ embeds: [embed] });
   }
   catch (e) {
     return sendError(msg, e);

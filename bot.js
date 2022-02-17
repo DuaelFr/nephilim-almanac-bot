@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { Client, Intents } = require('discord.js');
 const logger = require('winston');
 const config = require('./config.json');
 
@@ -10,12 +10,13 @@ logger.add(new logger.transports.Console, {
 logger.level = 'debug';
 
 // Initialize Discord Bot.
-const bot = new Discord.Client({
-  intents: ["GUILD_MESSAGES", "DIRECT_MESSAGES"],
+const bot = new Client({
+  partials: ["CHANNEL"], // Needed for DMs.
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES],
 });
 
 // Log when ready.
-bot.on('ready', () => {
+bot.once('ready', () => {
   logger.info(`Logged in as ${bot.user.tag}!`);
 
   bot.user.setActivity({
@@ -37,9 +38,9 @@ for (let i in msgHandlers) {
 }
 
 // Handle messages.
-bot.on('message', msg => {
-  if (msg.content.substr(0, 1) === config.prefix) {
-    const command = msg.content.split(' ')[0].substr(config.prefix.length);
+bot.on('messageCreate', msg => {
+  if (msg.content.substring(0, 1) === config.prefix) {
+    const command = msg.content.split(' ')[0].substring(config.prefix.length);
     for (let i in msgHandlers) {
       msgHandlers[i].handle(command, msg);
     }

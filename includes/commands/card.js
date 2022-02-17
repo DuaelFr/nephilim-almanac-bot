@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageAttachment, MessageEmbed } = require('discord.js');
 const csv = require('csvtojson');
 const Fuse = require('fuse.js');
 const transliteration = require('transliteration');
@@ -47,10 +47,10 @@ async function handle(command, msg) {
   if (params[1] === 'help') {
     readFile('./assets/card_help.md', {encoding: 'utf8'})
       .then((data) => {
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
           .setTitle('Aide de la commande @card')
           .setDescription(data);
-        msg.channel.send(embed);
+        msg.channel.send({ embeds: [embed] });
       });
     return;
   }
@@ -142,10 +142,12 @@ function filterResults(msg, results) {
  *   Filtered results.
  * @param allResults array
  *   All results (unfiltered).
- * @return string | Message
+ * @return {}
  */
 function formatResults(results, allResults) {
   const diff = allResults.length - results.length;
+  const files = [];
+  const embeds = [];
 
   if (results.length === 0) {
     let message = [];
@@ -154,18 +156,22 @@ function formatResults(results, allResults) {
       message.push(`(${diff} résultat(s) supplémentaire(s) dans des ensembles désactivés sur ce serveur)`);
     }
 
-    return new Discord.MessageEmbed()
-      .setTitle("Aucune carte trouvée.")
-      .setDescription(message.join("\n"));
+    embeds.push(
+      new MessageEmbed()
+        .setTitle("Aucune carte trouvée.")
+        .setDescription(message.join("\n"))
+    );
   }
   else if (results.length === 1) {
     const card = results[0].item;
-    return new Discord.MessageEmbed()
-      .setTitle(card.name)
-      .setDescription(card.type)
-      .attachFiles([`assets/cards/${card.file}`])
-      .setImage(`attachment://${card.file}`)
-      .setFooter(`Crédit image : ${card.credit}`);
+    files.push(new MessageAttachment(`assets/cards/${card.file}`));
+    embeds.push(
+      new MessageEmbed()
+        .setTitle(card.name)
+        .setDescription(card.type)
+        .setImage(`attachment://${card.file}`)
+        .setFooter({text: `Crédit image : ${card.credit}`})
+    );
   }
   else {
     const summary = results.slice(0, 10);
@@ -186,10 +192,14 @@ function formatResults(results, allResults) {
       message.push(`*${diff} résultat(s) supplémentaire(s) dans des ensembles désactivés sur ce serveur*`);
     }
 
-    return new Discord.MessageEmbed()
-      .setTitle(`**${results.length}** résultats`)
-      .setDescription(message.join("\n"));
+    embeds.push(
+      new MessageEmbed()
+        .setTitle(`**${results.length}** résultats`)
+        .setDescription(message.join("\n"))
+    );
   }
+
+  return {embeds: embeds, files: files};
 }
 
 module.exports = {

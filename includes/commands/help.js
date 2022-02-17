@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { readFile } = require('fs').promises;
 
 function handle(command, msg) {
@@ -8,10 +8,10 @@ function handle(command, msg) {
 
   readFile('./assets/help.md', {encoding: 'utf8'})
     .then((data) => {
-      const embed = new Discord.MessageEmbed()
+      const embed = new MessageEmbed()
         .setTitle('Aide globale')
         .setDescription(data);
-      msg.channel.send(embed);
+      msg.channel.send({ embeds: [embed] });
     });
 }
 

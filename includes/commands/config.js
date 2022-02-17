@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const config = require('../../config.json');
 const { readFile } = require('fs').promises;
 const { sendError, configGet, configSet } = require('../helpers');
@@ -8,13 +8,13 @@ function handle(command, msg) {
     return;
   }
 
-  if (msg.channel.type === 'dm') {
+  if (msg.channel.type === 'DM') {
     return sendError(msg, 'Cette commande ne fonctionne qu\'au sein d\'un salon, pas en message privé.');
   }
 
   const guild = msg.guild;
-  const member = guild.member(msg.author);
-  if (!member.hasPermission("ADMINISTRATOR") && !member.hasPermission("MANAGE_GUILD")) {
+  const member = guild.members.resolve(msg.author);
+  if (!member.permissions.has("ADMINISTRATOR") && !member.permissions.has("MANAGE_GUILD")) {
     return sendError(msg, 'Cette commande n\'est accessible qu\' aux membres disposant de la permission "Administrateur" ou "Gérer le serveur".');
   }
 
@@ -27,10 +27,10 @@ function handle(command, msg) {
     readFile('./assets/config_help.md', {encoding: 'utf8'})
       .then((data) => {
         const response = data.replace('{{ validSets }}', validSets);
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
           .setTitle('Aide de la commande @config')
           .setDescription(response);
-        msg.channel.send(embed);
+        msg.channel.send({ embeds: [embed] });
       });
   }
 
@@ -49,10 +49,10 @@ function handle(command, msg) {
             response.push(`État : ${state} ${stateIcon}`);
             response.push('');
           }
-          const embed = new Discord.MessageEmbed()
+          const embed = new MessageEmbed()
             .setTitle('Configuration actuelle')
             .setDescription(response.join("\n"));
-          msg.channel.send(embed);
+          msg.channel.send({ embeds: [embed] });
         });
     }
     else {
@@ -72,10 +72,10 @@ function handle(command, msg) {
             .then(() => {
               const state = data[setName] ? 'Actif' : 'Inactif';
               const stateIcon = data[setName] ? ':unlock:' : ':lock:';
-              const embed = new Discord.MessageEmbed()
+              const embed = new MessageEmbed()
                 .setColor('#006600')
                 .setDescription(`L'ensemble des **${config.cardsSets[setName]}** est désormais **${state}** ${stateIcon}.`);
-              return msg.channel.send(embed);
+              return msg.channel.send({ embeds: [embed] });
             });
         });
     }
