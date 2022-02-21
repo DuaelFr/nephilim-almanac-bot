@@ -17,6 +17,11 @@ function cleanString(string) {
 }
 
 function init() {
+  const books = {};
+  for (const key of Object.keys(config.cardsSets)) {
+    books[config.cardsSets[key]] = key;
+  }
+
   csv({
     headers: ['name', 'file', 'book', 'type', 'credit'],
   })
@@ -25,6 +30,7 @@ function init() {
       cards = jsonObj;
       for (let i in cards) {
         cards[i].index = cleanString(cards[i].name);
+        cards[i].cardDir = books[cards[i].book];
       }
 
       index = new Fuse(jsonObj, {
@@ -164,7 +170,7 @@ function formatResults(results, allResults) {
   }
   else if (results.length === 1) {
     const card = results[0].item;
-    files.push(new MessageAttachment(`assets/cards/${card.file}`));
+    files.push(new MessageAttachment(`assets/cards/${card.cardDir}/${card.file}`));
     embeds.push(
       new MessageEmbed()
         .setTitle(card.name)

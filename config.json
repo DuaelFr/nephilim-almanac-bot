@@ -90,6 +90,12 @@
     }
   ],
   "cardsSets": {
-    "lv0": "Livre 0 - Néphilim Quintessence"
+    "lv0": "Livre 0 - Néphilim Quintessence",
+    "lv1": "Livre I - Le Lion Vert",
+    "lv2": "Livre II - Les Arcanes Majeurs",
+    "lv4": "Livre IV - Le Souffle du Dragon",
+    "lv5": "Livre V - Les Selenim",
+    "lv7": "Livre VII - La nouvelle Ys",
+    "lv8": "Livre VIII - Eole"
   }
 }
