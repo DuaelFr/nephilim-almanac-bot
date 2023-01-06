@@ -48,3 +48,6 @@ bot.on('messageCreate', msg => {
 });
 
 bot.login(process.env.TOKEN);
+
+// Answer to port HEALTH_CHECK_PORT so we can know the bot is alive.
+require('http').createServer((req, res) => res.end('Ouroboros is here')).listen(process.env.HEALTH_CHECK_PORT, '0.0.0.0');
