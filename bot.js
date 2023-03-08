@@ -2,6 +2,9 @@ const { Client, Intents } = require('discord.js');
 const logger = require('winston');
 const config = require('./config.json');
 
+// Load .env environment variables.
+require('dotenv').config({override: true});
+
 // Configure logger settings.
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
