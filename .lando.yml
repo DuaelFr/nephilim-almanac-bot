@@ -5,13 +5,10 @@ services:
     app_mount: false
   appserver:
     type: node:16
-    ports:
-      - 80
     overrides:
       environment:
         TOKEN: '**OVERRIDE THIS LOCALLY**'
         REDIS_TLS_URL: 'redis://redis'
-        HEALTH_CHECK_PORT: 80
     build:
       - npm install
 tooling:
