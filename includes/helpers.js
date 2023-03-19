@@ -1,16 +1,25 @@
 const { MessageEmbed } = require('discord.js');
-const redis = require('redis');
+const Redis = require("ioredis");
 const serialize = require('serialize-javascript');
 const { promisify } = require("util");
+const { URL } = require("url");
 
 // Configure redis database.
-let redisClientOptions = {};
-if (process.env.REDIS_TLS_URL.indexOf('rediss://') === 0) {
-  redisClientOptions.tls = { rejectUnauthorized: false };
-}
-const redisClient = redis.createClient(process.env.REDIS_TLS_URL, redisClientOptions);
+const redis_uri = new URL(process.env.REDIS_TLS_URL);
+const redisOptions = process.env.REDIS_TLS_URL.includes("rediss://")
+  ? {
+    port: Number(redis_uri.port),
+    host: redis_uri.hostname,
+    password: redis_uri.password,
+    db: redis_uri.pathname.replace(/^\/+|\/+$/g, '') || 0,
+    tls: {
+      rejectUnauthorized: false,
+    },
+  }
+  : process.env.REDIS_TLS_URL;
+const redisClient = new Redis(redisOptions);
 redisClient.on("error", function(error) {
-  throw "Impossible de joindre la base de données.";
+  throw "Cannot connect to the database. " + error;
 });
 
 // Base redis methods.
