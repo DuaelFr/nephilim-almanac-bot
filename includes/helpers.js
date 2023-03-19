@@ -23,12 +23,12 @@ const redisSetAsync = promisify(redisClient.set).bind(redisClient);
  * @param msg
  * @param errorMessage
  */
-const sendError = (msg, errorMessage) => {
+const sendError = (channel, errorMessage) => {
   const embed = new MessageEmbed()
     .setTitle('Erreur')
     .setColor(0xff0000)
     .setDescription(errorMessage);
-  msg.channel.send({embeds: [embed]});
+  channel.send({embeds: [embed]});
 }
 
 /**

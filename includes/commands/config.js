@@ -9,13 +9,13 @@ function handle(command, msg) {
   }
 
   if (msg.channel.type === 'DM') {
-    return sendError(msg, 'Cette commande ne fonctionne qu\'au sein d\'un salon, pas en message privé.');
+    return sendError(msg.channel, 'Cette commande ne fonctionne qu\'au sein d\'un salon, pas en message privé.');
   }
 
   const guild = msg.guild;
   const member = guild.members.resolve(msg.author);
   if (!member.permissions.has("ADMINISTRATOR") && !member.permissions.has("MANAGE_GUILD")) {
-    return sendError(msg, 'Cette commande n\'est accessible qu\' aux membres disposant de la permission "Administrateur" ou "Gérer le serveur".');
+    return sendError(msg.channel, 'Cette commande n\'est accessible qu\' aux membres disposant de la permission "Administrateur" ou "Gérer le serveur".');
   }
 
   const params = msg.content.split(' ');
@@ -61,7 +61,7 @@ function handle(command, msg) {
       // Set not in the cards sets = send error.
       if (!(setName in config.cardsSets)) {
         let validSets = Object.keys(config.cardsSets).join('*, *');
-        return sendError(msg, `L'ensemble de cartes *${setName}* n'existe pas. (Valeurs possibles : *${validSets}*)`);
+        return sendError(msg.channel, `L'ensemble de cartes *${setName}* n'existe pas. (Valeurs possibles : *${validSets}*)`);
       }
 
       // Toggle the state of the card set for this server (guild).

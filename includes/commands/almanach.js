@@ -67,7 +67,7 @@ function handle(command, msg) {
     return msg.channel.send({ embeds: [embed] });
   }
   catch (e) {
-    return sendError(msg, e);
+    return sendError(msg.channel, e);
   }
 }
 
