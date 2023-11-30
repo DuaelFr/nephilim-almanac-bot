@@ -54,3 +54,13 @@ Exemples :
 Si vous êtes ayant droit d'une illustration utilisée dans le cadre de ce
 projet et que vous ne souhaitez pas qu'elle soit utilisée, n'hésitez pas à
 [ouvrir une issue](https://github.com/DuaelFr/nephilim-almanac-bot/issues/new) !
+
+## Remerciements
+
+Un grand merci à Akhenaton, Diamond, MightyThor et Trifcan pour la réalisation
+des cartes.
+
+Un immense merci à la communauté du [serveur Discord non officiel Nephilim](https://discord.gg/DXDWMFwZHt)
+et plus spécifiquement à Matthieu R, Luc D, Sylvain B, Antoine L, Anaïs A, 
+Nicolas B, Grégoire L, Marc-Alexandre B, Anne P et Jean-Jacques M pour leur
+soutien financier pour l'hébergement du Bot (sur un Raspberry Pi).
