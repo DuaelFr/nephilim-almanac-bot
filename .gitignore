@@ -106,3 +106,4 @@ dist
 # Sensitive files
 .DONOTCOMMIT
 *.sh
+docker-compose.local.yml

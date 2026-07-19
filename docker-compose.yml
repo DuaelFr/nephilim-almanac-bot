@@ -1,0 +1,21 @@
+services:
+  redis:
+    image: redis:latest
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+  runner:
+    image: node:16-alpine
+    working_dir: /srv
+    command: bash -c "npm ci --only=prod --no-audit && npm start"
+    volumes:
+      - .:/srv
+    depends_on:
+      - redis
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - REDIS_TLS_URL=redis://redis
+
+volumes:
+  redis-data:
